@@ -1,4 +1,5 @@
 let express = require('express');
+const { default: mongoose } = require('mongoose');
 // module
 let Job = require('../models/job-DB');
 
@@ -46,6 +47,8 @@ router.get('/jobs/:id',async(req,res)=>{
     // fetch the required job by id
     try {
         let id = req.params.id;
+        // let checkId = mongoose.Types.ObjectId.isValid(id);
+        // console.log(checkId) // return true if id is a valid
         let job = await Job.findById(id);
         res.render('show',{job})
     } catch (error) {

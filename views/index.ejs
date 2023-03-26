@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h2>List of all jobs</h2>
-    <a href="/jobs/new">Add a new job</a>
-    <% for(let job of foundJobs){ %>
-        <div><%= job.name %><a href="/jobs/<%= job._id %>"> Read More</a></div>
-    <% } %>
-</body>
-</html>
+<%- include('./partials/header.ejs') %>
+<h2>List of all jobs</h2>
+<a class="btn btn-danger" href="/jobs/new">Add a new job</a>
+<% for(let job of foundJobs){ %>
+    <div>
+        <%= job.name %><a class="btn btn-success ms-2" href="/jobs/<%= job._id %>"> Read More</a>
+    </div>
+<% } %>
+<%- include('./partials/footer.ejs') %>
