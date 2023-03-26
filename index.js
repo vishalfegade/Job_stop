@@ -15,9 +15,14 @@ mongoose.connect('mongodb+srv://admin:admin@hirehubdb.7hikjgj.mongodb.net/?retry
 // connecting to ejs file
 app.set('view engine', 'ejs');
 
+// use to get URL data
 app.use(express.urlencoded({extended: true}));
 
+// use to override pre build methods
 app.use(methodOverride('_method'))
+
+// public named folder => use this as a static resource, i.e. CSS & JS & Other things
+app.use(express.static(__dirname + '/public'));
 
 // Import the routes
 let jobRoutes = require('./routes/index')
