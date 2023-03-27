@@ -1,0 +1,13 @@
+<%- include('../partials/header.ejs') %>
+
+<a href="/notifications/new" class="btn btn-primary">Add a new notification</a>
+
+<% for( let notification of allNotifs ) { %>
+    <div class="">
+        <p>Body : <%= notification.body %></p>
+        <p>Author : <%= notification.author %></p>
+        <hr>
+    </div>
+<% } %>
+
+<%- include('../partials/footer.ejs') %>
