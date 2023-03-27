@@ -25,8 +25,10 @@ app.use(methodOverride('_method'))
 app.use(express.static(__dirname + '/public'));
 
 // Import the routes
-let jobRoutes = require('./routes/index')
+let jobRoutes = require('./routes/jobs-routes.js')
 app.use(jobRoutes);
+let notificationRoutes = require('./routes/notifications-routes.js')
+app.use(notificationRoutes);
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
