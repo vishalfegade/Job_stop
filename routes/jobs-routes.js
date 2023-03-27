@@ -7,6 +7,15 @@ const { default: mongoose } = require("mongoose");
 let Job = require("../models/jobs-database");
 let Notification = require("../models/notifications-database");
 
+const isLoggedIn = (req,res,next) =>{
+    if(req.isAuthenticated()) {
+        next();
+    } else {
+        console.log("you are not logged in")
+        res.redirect('/login')
+    }
+}
+
 router.get("/", function (req, res) {
     res.render("landing");
 });
@@ -24,7 +33,7 @@ router.get("/jobs", async (req, res) => {
 });
 
 // * new
-router.get("/jobs/new", (req, res) => {
+router.get("/jobs/new", isLoggedIn , (req, res) => {
     res.render("new");
 });
 
