@@ -1,0 +1,149 @@
+<%- include('../partials/header.ejs') %>
+    <main class="page-wrapper">
+
+        <!-- Page content-->
+        <!-- Page container-->
+        <div class="container mt-5 mb-md-4 py-5">
+            <!-- Breadcrumb-->
+            <nav class="mb-3 mb-md-4 pt-md-3" aria-label="Breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Job</li>
+                </ol>
+            </nav>
+            <!-- Page content-->
+            <div class="row justify-content-center pb-sm-2">
+                <div class="col-lg-11 col-xl-10">
+                    <!-- Page title-->
+                    <div class="text-center pb-4 mb-3">
+                        <h1 class="h2 mb-4">You can edit <%= job.name %> Job here</h1>
+                    </div>
+                    <!-- Step 1: Basic Info-->
+                    <div class="bg-light rounded-3 p-4 p-md-5 mb-3">
+                        <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i>Basic info</h2>
+                        <form action="/jobs/<%= job._id %>?_method=PATCH" method="post">
+                            <div class="row">
+                                <div class="col-sm-6 mb-4">
+                                    <label class="form-label" for="pr-fn">Company Name <span
+                                            class='text-danger'>*</span></label>
+                                    <input class="form-control form-control-lg" type="text" id="pr-fn"
+                                        placeholder="Enter Company name" name="name" value="<%= job.name %>" required>
+                                </div>
+
+                                <div class="col-sm-6 mb-4">
+                                    <label class="form-label" for="pr-phone">CGPA</label>
+                                    <input class="form-control form-control-lg" type="number" name="cgpa" min="0"
+                                        value="<%= job.cgpa %>" max="10" id="pr-phone" placeholder="Enter CGPA">
+                                </div>
+                                <div class="col-sm-6 mb-4">
+                                    <label class="form-label" for="pr-birth-date">Job deadline <span
+                                            class='text-danger'>*</span></label>
+                                    <div class="input-group input-group-lg">
+                                        <input class="form-control date-picker rounded pe-5" type="date" name="deadline"
+                                            value="<%= moment(job.deadline).format('YYYY-MM-DD') %>" id="pr-birth-date"
+                                            placeholder="Choose date"
+                                            data-datepicker-options="{&quot;altInput&quot;: true, &quot;altFormat&quot;: &quot;F j, Y&quot;, &quot;dateFormat&quot;: &quot;Y-m-d&quot;}"><i
+                                            class="fi-calendar text-muted position-absolute top-50 end-0 translate-middle-y me-3"></i>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-4">
+                                    <label class="form-label" for="pr-country">Company Location <span
+                                            class='text-danger'>*</span></label>
+                                    <select class="form-select form-select-lg" id="pr-country" name="address" required>
+                                        <option value="" disabled <%=job.address==='' ? 'selected' : '' %>>Choose
+                                            country</option>
+                                        <option value="Australia" <%=job.address==='Australia' ? 'selected' : '' %>
+                                            >Australia</option>
+                                        <option value="Belgium" <%=job.address==='Belgium' ? 'selected' : '' %>>Belgium
+                                        </option>
+                                        <option value="Canada" <%=job.address==='Canada' ? 'selected' : '' %>>Canada
+                                        </option>
+                                        <option value="China" <%=job.address==='China' ? 'selected' : '' %>>China
+                                        </option>
+                                        <option value="Denmark" <%=job.address==='Denmark' ? 'selected' : '' %>>Denmark
+                                        </option>
+                                        <option value="France" <%=job.address==='France' ? 'selected' : '' %>>France
+                                        </option>
+                                        <option value="Germany" <%=job.address==='Germany' ? 'selected' : '' %>>Germany
+                                        </option>
+                                        <option value="Japan" <%=job.address==='Japan' ? 'selected' : '' %>>Japan
+                                        </option>
+                                        <option value="UK" <%=job.address==='UK' ? 'selected' : '' %>>UK</option>
+                                        <option value="USA" <%=job.address==='USA' ? 'selected' : '' %>>USA</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <label class="form-label" for="pr-address">Company Logo URL</label>
+                                    <input class="form-control form-control-lg" type="url" name="image" id="pr-address"
+                                        value="<%= job.image %>" placeholder="Enter the Company Logo URL">
+                                </div>
+                            </div>
+
+                            <div class="border-top pt-4">
+                                <label class="form-label fw-bold pb-1 mb-2">Job type</label>
+                                <div class="row row-cols-sm-2 row-cols-md-4 gx-3 gx-lg-4 mb-4">
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="full-time" name="type"
+                                                value="Fulltime" <%=job.type==='Fulltime' ? 'checked' : '' %>
+                                            onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="full-time">Full-time</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="part-time" name="type"
+                                                value="PartTime" <%=job.type==='PartTime' ? 'checked' : '' %>
+                                            onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="part-time">Part-time</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="remote" name="type"
+                                                value="Remote" <%=job.type==='Remote' ? 'checked' : '' %>
+                                            onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="remote">Remote</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="temporary" name="type"
+                                                value="Temporary" <%=job.type==='Temporary' ? 'checked' : '' %>
+                                            onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="temporary">Temporary</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="contract" name="type"
+                                                value="Contract" <%=job.type==='Contract' ? 'checked' : '' %>
+                                            onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="contract">Contract</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="internship" name="type"
+                                                value="Internship" <%=job.type==='Internship' ? 'checked' : '' %>
+                                            onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="internship">Internship</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="form-label fw-bold pb-1 mb-2">Salary range</label>
+                                <div class="row gx-2 gx-lg-3 gx-xl-4">
+                                    <div class="col-md-7 mb-3 mb-md-0">
+                                        <div class="d-flex align-items-center">
+                                            <input class="form-control form-control-lg" name="package" type="number"
+                                                value="<%= job.package %>" step="100" min="300" placeholder="From">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Navigation-->
+                            <div class="d-flex flex-column flex-sm-row bg-light rounded-3 p-4 px-md-5">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill ms-sm-auto">Update Job<i class="fi-chevron-right fs-sm ms-2"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%- include('../partials/footer.ejs') %>
