@@ -1,32 +1,94 @@
 <%- include('../partials/header.ejs') %>
 
-<% if(currentUser && currentUser.isAdmin) {%>
-    <div class="mt-2 d-flex justify-content-center">
-        <a href="/notifications/new" class="btn btn-primary">Add a new notification</a>
-    </div>
-<% } %>
-
-
-<% for( let i=allNotifs.length-1; i >= 0; i-- ) { %>
-  <div class="card text-center mx-5 my-2">
-    <div class="card-header">
-      Notification : #<%= i+1 %>
-    </div>
-    <div class="card-body">
-      <h5 class="card-title">Author: <%= allNotifs[i].author %></h5>
-      <p class="card-text">Body: <%= allNotifs[i].body %></p>
-      <button type="button" class="btn btn-primary mt-2 mb-2" data-bs-toggle="tooltip" data-bs-placement="left"
-        title="<%= allNotifs[i].body %>">Read More</button>
+  <!-- Page content-->
+  <!-- Page container-->
+  <div class="position-absolute top-0 start-0 w-100 bg-dark" style="height: 398px;"></div>
+  <div class="container content-overlay mt-5 mb-md-4 py-5">
+    <!-- Breadcrumb-->
+    <nav class="mb-3 mb-md-4 pt-md-3" aria-label="Breadcrumb">
+      <ol class="breadcrumb breadcrumb-light">
+        <li class="breadcrumb-item"><a href="job-board-home-v1.html">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Notifications</li>
+      </ol>
+    </nav>
+    <!-- Page card like wrapper-->
+    <div class="bg-light shadow-sm rounded-3 p-4 p-md-5 mb-2">
+      <!-- Account header-->
+      <div class="d-flex align-items-start justify-content-between pb-4 mb-2">
+        <div class="d-flex align-items-start">
+          <div class="position-relative flex-shrink-0"><img class="rounded-circle" src="/Images/img/avatars/37.png"
+              width="100" alt="Annette Black">
+            <button class="btn btn-icon btn-light btn-xs rounded-circle shadow-sm position-absolute end-0 bottom-0"
+              type="button" data-bs-toggle="tooltip" title="Change image"><i class="fi-pencil fs-xs"></i></button>
+          </div>
+          <div class="ps-3 ps-sm-4">
+            <h3 class="h5"><%= currentUser.name %></h3>
+            <ul class="list-unstyled fs-sm mb-0">
+              <li class="d-flex text-nav text-break"><i
+                  class="fi-mail opacity-60 mt-1 me-2"></i><span><%= currentUser.username %></span></li>
+              <li class="d-flex text-nav text-break"><i class="fi-phone opacity-60 mt-1 me-2"></i><span>CGPA : <%= currentUser.cgpa %></span></li>
+            </ul>
+          </div>
+        </div><a class="nav-link p-0 d-none d-md-block" href="/logout"><i class="fi-logout mt-n1 me-2"></i>Sign out</a>
+      </div>
+      <!-- Account menu-->
+      <a class="btn btn-outline-primary btn-lg rounded-pill w-100 d-md-none" href="#account-nav"
+        data-bs-toggle="collapse"><i class="fi-align-justify me-2"></i>Account Menu</a>
+      <div class="collapse d-md-block" id="account-nav">
+        <ul class="nav nav-pills flex-column flex-md-row pt-3 pt-md-0 pb-md-4 border-bottom-md">
+          <li class="nav-item mb-md-0"><a class="nav-link active" href="job-board-account-notifications.html"><i
+                class="fi-bell mt-n1 me-2 fs-base"></i>Notifications</a></li>
+        </ul>
+      </div>
+      <!-- Page title-->
+      <div class="d-flex align-items-center justify-content-between py-4 mt-3 mb-2">
+        <h1 class="h3 mb-0">All Notifications</h1>
         <% if(currentUser && currentUser.isAdmin) {%>
-            <form action="/notifications/<%= allNotifs[i]._id %>?_method=DELETE" method="post">
-                <input type="submit" class="btn btn-danger" value="delete">
-            </form>
-        <% } %>
-    </div>
-    <div class="card-footer text-body-secondary">
-      <%= moment(allNotifs[i].createdAt).fromNow() %>
+          <a class="fw-bold text-decoration-none" href="/notifications/new"><i class="fi-plus fs-xs me-2"></i><span class="align-middle">Add a new notification</span></a>
+
+      <% } %>
+
+      </div>
+      <!-- Grid-->
+      <div class="row g-2 g-md-4">
+        <!-- Item-->
+
+        <% for( let i=allNotifs.length-1; i>= 0; i-- ) { %>
+          <div class="col-md-6 col-lg-4">
+            <div class="card bg-secondary card-hover h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="fi-bell fs-5"></div>
+                  <span class="fs-sm text-dark opacity-80 px-1">#<%= i+1 %></span><span
+                    class="badge bg-faded-info rounded-pill fs-sm ms-auto">New</span>
+                </div>
+                <h3 class="h6 card-title mb-2">
+                  <div class="text-nav stretched-link text-decoration-none">Author: <%= allNotifs[i].author %>
+                  </div>
+                </h3>
+                <p class="fs-sm mb-0">Body: <%= allNotifs[i].body %>
+                </p>
+              </div>
+              <div class="card-footer d-flex align-items-center justify-content-between border-0 pt-0">
+                <div class="fs-sm">
+                  <span class="text-nowrap me-3"><i class="fi-map-pin text-muted me-1"> </i>
+                    <%= moment(allNotifs[i].createdAt).fromNow() %>
+                  </span>
+                </div>
+
+                <% if(currentUser && currentUser.isAdmin) {%>
+                  <form action="/notifications/<%= allNotifs[i]._id %>?_method=DELETE" method="post"
+                    style="z-index: 1;">
+                    <input type="submit" class="btn btn-danger w-100" value="delete">
+                  </form>
+                  <% } %>
+              </div>
+            </div>
+          </div>
+          <% } %>
+      </div>
     </div>
   </div>
-<% } %>
+  </main>
 
-<%- include('../partials/footer.ejs') %>
+  <%- include('../partials/footer.ejs') %>

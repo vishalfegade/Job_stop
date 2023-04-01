@@ -28,6 +28,7 @@ router.post('/register', async(req,res)=>{
 })
 
 router.get('/login',(req,res)=>{
+    // res.render('authentication/login');
     res.render('authentication/login');
     // res.send("login page")
 })
@@ -35,7 +36,7 @@ router.get('/login',(req,res)=>{
 router.post('/login', passport.authenticate('local',{failureRedirect: '/login'}) ,(req,res)=>{
     //login user
     console.log("user logged in")
-    res.redirect('/jobs');
+    res.redirect('/');
 })
 
 router.get('/logout',(req,res)=>{
@@ -44,7 +45,7 @@ router.get('/logout',(req,res)=>{
             console.log("error while logout")
         }
         console.log("user logged out")
-        res.redirect('/jobs');
+        res.redirect('/login');
     });
 })
 

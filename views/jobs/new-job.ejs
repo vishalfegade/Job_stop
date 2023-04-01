@@ -1,0 +1,168 @@
+<%- include('../partials/header.ejs') %>
+    <main class="page-wrapper">
+
+        <!-- Page content-->
+        <!-- Page container-->
+        <div class="container mt-5 mb-md-4 py-5">
+            <!-- Breadcrumb-->
+            <nav class="mb-3 mb-md-4 pt-md-3" aria-label="Breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Post Job</li>
+                </ol>
+            </nav>
+            <!-- Page content-->
+            <div class="row justify-content-center pb-sm-2">
+                <div class="col-lg-11 col-xl-10">
+                    <!-- Page title-->
+                    <div class="text-center pb-4 mb-3">
+                        <h1 class="h2 mb-4">You can post new Job's here</h1>
+                        <p class="mb-4">Save time by uploading a resume to prefill some of the fields below. Please, use
+                            PDF format.</p>
+                        <button class="btn btn-primary btn-lg rounded-pill" type="button"><i
+                                class="fi-download me-2"></i>New Job</button>
+                    </div>
+                    <!-- Steps-->
+                    <div class="bg-light rounded-3 py-4 px-md-4 mb-3">
+                        <div class="steps pt-4 pb-1">
+                            <div class="step active">
+                                <div class="step-progress"><span class="step-progress-start"></span><span
+                                        class="step-progress-end"></span><span class="step-number">1</span></div>
+                                <div class="step-label">Basic info</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-progress"><span class="step-progress-start"></span><span
+                                        class="step-progress-end"></span><span class="step-number">2</span></div>
+                                <div class="step-label">Post</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-progress"><span class="step-progress-start"></span><span
+                                        class="step-progress-end"></span><span class="step-number">3</span></div>
+                                <div class="step-label">Apply</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-progress"><span class="step-progress-start"></span><span
+                                        class="step-progress-end"></span><span class="step-number">4</span></div>
+                                <div class="step-label">Test</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-progress"><span class="step-progress-start"></span><span
+                                        class="step-progress-end"></span><span class="step-number">5</span></div>
+                                <div class="step-label">Selected</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 1: Basic Info-->
+                    <div class="bg-light rounded-3 p-4 p-md-5 mb-3">
+                        <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i>Basic info</h2>
+                        <form action="/jobs" method="post">
+                            <div class="row">
+                                <div class="col-sm-6 mb-4">
+                                    <label class="form-label" for="pr-fn">Company Name <span
+                                            class='text-danger'>*</span></label>
+                                    <input class="form-control form-control-lg" type="text" id="pr-fn"
+                                        placeholder="Enter Company name" name="name" required>
+                                </div>
+
+                                <div class="col-sm-6 mb-4">
+                                    <label class="form-label" for="pr-phone">CGPA</label>
+                                    <input class="form-control form-control-lg" type="number" name="cgpa" min="0"
+                                        max="10" id="pr-phone" placeholder="Enter CGPA">
+                                </div>
+                                <div class="col-sm-6 mb-4">
+                                    <label class="form-label" for="pr-birth-date">Job deadline <span
+                                            class='text-danger'>*</span></label>
+                                    <div class="input-group input-group-lg">
+                                        <input class="form-control date-picker rounded pe-5" type="date" name="deadline"
+                                            id="pr-birth-date" placeholder="Choose date"
+                                            data-datepicker-options="{&quot;altInput&quot;: true, &quot;altFormat&quot;: &quot;F j, Y&quot;, &quot;dateFormat&quot;: &quot;Y-m-d&quot;}"><i
+                                            class="fi-calendar text-muted position-absolute top-50 end-0 translate-middle-y me-3"></i>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-4">
+                                    <label class="form-label" for="pr-country">Company Location <span
+                                            class='text-danger'>*</span></label>
+                                    <select class="form-select form-select-lg" id="pr-country" name="address" required>
+                                        <option value="" disabled selected>Choose country</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="Belgium">Belgium</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="China">China</option>
+                                        <option value="Denmark">Denmark</option>
+                                        <option value="France">France</option>
+                                        <option value="Germany">Germany</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="UK">UK</option>
+                                        <option value="USA">USA</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <label class="form-label" for="pr-address">Company Logo URL</label>
+                                    <input class="form-control form-control-lg" type="url" name="image" id="pr-address"
+                                        placeholder="Enter the Company Logo URL">
+                                </div>
+                            </div>
+
+                            <div class="border-top pt-4">
+                                <label class="form-label fw-bold pb-1 mb-2">Job type</label>
+                                <div class="row row-cols-sm-2 row-cols-md-4 gx-3 gx-lg-4 mb-4">
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="full-time" name="type" value="Fulltime"
+                                                checked onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="full-time">Full-time</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="part-time" name="type" value="PartTime"
+                                                onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="part-time">Part-time</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="remote" name="type" value="Remote"
+                                                onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="remote">Remote</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="temporary" name="type" value="Temporary"
+                                                onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="temporary">Temporary</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="contract" name="type" value="contract"
+                                                onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="contract">Contract</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="internship" name="type" value="Internship"
+                                                onclick="onlyOne(this)">
+                                            <label class="form-check-label" for="internship">Internship</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="form-label fw-bold pb-1 mb-2">Salary range</label>
+                                <div class="row gx-2 gx-lg-3 gx-xl-4">
+                                    <div class="col-md-7 mb-3 mb-md-0">
+                                        <div class="d-flex align-items-center">
+                                            <input class="form-control form-control-lg" name="package" type="number"
+                                                step="100" min="300" placeholder="From">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Navigation-->
+                            <div class="d-flex flex-column flex-sm-row bg-light rounded-3 p-4 px-md-5">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill ms-sm-auto">Add a new
+                                    Job<i class="fi-chevron-right fs-sm ms-2"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%- include('../partials/footer.ejs') %>

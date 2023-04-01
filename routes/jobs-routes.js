@@ -11,7 +11,7 @@ let Notification = require("../models/notifications-database");
 let { isLoggedIn, isAdmin } = require('../middlewares/middlewares')
 
 router.get("/", function (req, res) {
-    res.render("landing");
+    res.render("home-page");
 });
 
 // REST - routes
@@ -21,11 +21,11 @@ router.get("/jobs", async (req, res) => {
         if (req.query.search && req.query.search.length > 0) {
 			let regex = new RegExp(req.query.search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi');
 			let foundJobs = await Job.find({ name: regex });
-			res.render('index', { foundJobs });
+			res.render('jobs/all-jobs', { foundJobs });
 		} else {
 			// extract all the jobs from db
 			let foundJobs = await Job.find({});
-			res.render('index', { foundJobs });
+			res.render('jobs/all-jobs', { foundJobs });
 		}
     } catch (error) {
         res.send("error while extracting all jobs", error);
@@ -34,7 +34,7 @@ router.get("/jobs", async (req, res) => {
 
 // * new
 router.get("/jobs/new", isLoggedIn, isAdmin, (req, res) => {
-    res.render("new");
+    res.render("jobs/new-job");
 });
 
 // * create
@@ -73,7 +73,7 @@ router.get("/jobs/:id", async (req, res) => {
         // let checkId = mongoose.Types.ObjectId.isValid(id);
         // console.log(checkId) // return true if id is a valid
         let job = await Job.findById(id).populate('appliedUsers');
-        res.render("show", { job });
+        res.render("jobs/show-job", { job });
     } catch (error) {
         console.log("error while fetching job by id to show", error);
     }
@@ -85,7 +85,7 @@ router.get("/jobs/:id/edit", async (req, res) => {
     try {
         let id = req.params.id;
         let job = await Job.findById(id);
-        res.render("edit", { job });
+        res.render("jobs/edit-jobs", { job });
     } catch (error) {
         console.log("error while fetching job by id to edit", error);
     }
