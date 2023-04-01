@@ -2,6 +2,7 @@ let express = require("express");
 let router = express.Router();
 
 let Notification = require("../models/notifications-database");
+let {isLoggedIn, isAdmin } = require("../middlewares/middlewares");
 
 // index
 router.get("/notifications", async (req, res) => {
@@ -33,7 +34,7 @@ router.post("/notifications", async (req, res) => {
 });
 
 // delete
-router.delete("/notifications/:id", async (req, res) => {
+router.delete("/notifications/:id",isLoggedIn, isAdmin, async (req, res) => {
   try {
     let id = req.params.id;
     await Notification.findByIdAndDelete(id);

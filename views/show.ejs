@@ -1,19 +1,45 @@
 <%- include('./partials/header.ejs') %>
 
-    <h2>show page for <%= job.name %></h2>
-    <div class="">
-        <img src="<%= job.image %>" alt="" width="200px">
-        <div class="d-flex">
-            <a class="btn btn-warning ms-2 me-2" href="/jobs/<%= job._id %>/edit">Edit</a>
-            <form action="/jobs/<%= job._id %>?_method=DELETE" method="post">
-                <input class="btn btn-danger" type="submit" value="Delete">
-            </form>
+<div class="mt-5">
+
+<div class="card mb-3 m-auto px-3" style="max-width: 540px;">
+    <div class="row g-0">
+        <div class="col-md-4 d-flex align-items-center">
+            <img src="<%= job.image %>" class="img-fluid rounded-start" alt="Company Logo">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title text-decoration-underline"><%= job.name %></h5>
+                <p class="card-text"><b>Address : </b> <%= job.address %></p>
+                <p class="card-text"><b>Package : </b> <%= job.package %>$</p>
+                <p class="card-text"><b>CGPA : </b> <%= job.cgpa %></p>
+                <p class="card-text"><b>Deadline : </b> <%= job.deadline.toDateString() %></p>
+                <p class="card-text"><b>CreatedAt : </b> <%= moment(job.createdAt).fromNow() %></p>
+                <p class="card-text"><b>Type : </b> <%= job.type %></p>
+                <div class="d-flex">
+                    <a href="/jobs/<%= job._id %>/apply" class="btn btn-primary me-2">apply</a>
+                    <% if (currentUser && currentUser.isAdmin) { %>
+                        <a class="btn btn-warning me-2" href="/jobs/<%= job._id %>/edit">edit</a>
+                        <form action="/jobs/<%= job._id %>?_method=DELETE" method="post">
+                            <input class="btn btn-danger" type="submit" value="delete">
+                        </form>
+                    <% } %>
+                </div>
+            </div>
         </div>
     </div>
-    <div>Job Address : <%= job.address %></div>
-    <div>Job Package : <%= job.package %></div>
-    <div>Job CGPA : <%= job.cgpa %></div>
-    <div>Job Deadline : <%= job.deadline %></div>
-    <div>Job Type : <%= job.type %></div>
+</div>
+</div>
+<hr>
+<% if (currentUser && currentUser.isAdmin) { %>
+    <h1>List of Applied Students</h1>
+    <ol>
+        <% for( let student of job.appliedUsers) { %>
+            <li><%= student.username %></li>
+            <% } %>
+    </ol>
+<% } %>
+
+
 
 <%- include('./partials/footer.ejs') %>

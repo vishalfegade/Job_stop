@@ -1,6 +1,6 @@
 let express = require('express');
-let User = require('../models/users-database');
 let router = express.Router();
+let User = require('../models/users-database');
 const passport = require('passport');
 
 router.get('/register', async(req,res)=>{
@@ -10,9 +10,12 @@ router.get('/register', async(req,res)=>{
 
 router.post('/register', async(req,res)=>{
     let user = new User({
-        username: req.body.username
+        username: req.body.username,
+        name: req.body.name,
+        cgpa: req.body.cgpa,
     });
     // eval(require('locus'))
+    // hashing and salting and saving
     let registerUser = await User.register(user,req.body.password);
     // Cookie will auto generated
     req.logIn(registerUser,(err) =>{

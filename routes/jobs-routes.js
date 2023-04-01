@@ -1,20 +1,14 @@
 let express = require("express");
 let router = express.Router();
 
-const { default: mongoose } = require("mongoose");
+// const { default: mongoose } = require("mongoose");
 
 // module
 let Job = require("../models/jobs-database");
 let Notification = require("../models/notifications-database");
 
-const isLoggedIn = (req,res,next) =>{
-    if(req.isAuthenticated()) {
-        next();
-    } else {
-        console.log("you are not logged in")
-        res.redirect('/login')
-    }
-}
+// middleware, destructuring
+let { isLoggedIn, isAdmin } = require('../middlewares/middlewares')
 
 router.get("/", function (req, res) {
     res.render("landing");
@@ -24,21 +18,27 @@ router.get("/", function (req, res) {
 // * index
 router.get("/jobs", async (req, res) => {
     try {
-        // extracts all the jobs from DB
-        let foundJobs = await Job.find({});
-        res.render("index", { foundJobs });
+        if (req.query.search && req.query.search.length > 0) {
+			let regex = new RegExp(req.query.search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi');
+			let foundJobs = await Job.find({ name: regex });
+			res.render('index', { foundJobs });
+		} else {
+			// extract all the jobs from db
+			let foundJobs = await Job.find({});
+			res.render('index', { foundJobs });
+		}
     } catch (error) {
         res.send("error while extracting all jobs", error);
     }
 });
 
 // * new
-router.get("/jobs/new", isLoggedIn , (req, res) => {
+router.get("/jobs/new", isLoggedIn, isAdmin, (req, res) => {
     res.render("new");
 });
 
 // * create
-router.post("/jobs", async (req, res) => {
+router.post("/jobs",isLoggedIn, isAdmin, async (req, res) => {
     try {
         // make a database object
         let newJob = new Job({
@@ -72,7 +72,7 @@ router.get("/jobs/:id", async (req, res) => {
         let id = req.params.id;
         // let checkId = mongoose.Types.ObjectId.isValid(id);
         // console.log(checkId) // return true if id is a valid
-        let job = await Job.findById(id);
+        let job = await Job.findById(id).populate('appliedUsers');
         res.render("show", { job });
     } catch (error) {
         console.log("error while fetching job by id to show", error);
@@ -126,10 +126,37 @@ router.delete("/jobs/:id", async (req, res) => {
     try {
         let id = req.params.id;
         await Job.findByIdAndDelete(id);
+        // findOneAndDestroy
         res.redirect("/jobs");
     } catch (error) {
         console.log("error while deleting a job", error);
     }
+});
+
+// apply in jobs
+router.get('/jobs/:jobId/apply', isLoggedIn, async function(req, res) {
+	try {
+		if (!req.user.cgpa) {
+			return res.send('you have not entered your cgpa');
+		}
+		let { jobId } = req.params;
+		let job = await Job.findById(jobId);
+		if (req.user.cgpa < job.cgpa) {
+			return res.send('your cgpa is not enough');
+		}
+		for (let user of job.appliedUsers) {
+			if (user._id.equals(req.user._id)) {
+				return res.send('you can only apply once');
+			}
+		}
+        // console.log(first)
+		job.appliedUsers.push(req.user);
+		await job.save();
+		// console.log(job);
+		res.redirect(`/jobs`);
+	} catch (error) {
+		console.log('error while applying in job', error);
+	}
 });
 
 // export the routes

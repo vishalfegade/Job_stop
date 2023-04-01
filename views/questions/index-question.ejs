@@ -1,0 +1,27 @@
+<%- include('../partials/header.ejs') %>
+
+<% if(currentUser && currentUser.isAdmin) { %>
+    <div class="mt-2 d-flex justify-content-center">
+        <a href="/jobs/<%=jobId %>/questions/new" class="btn btn-primary">Add a new question</a>
+    </div>
+<% } %>
+
+<h2>List of all questions</h2>
+
+<% for( let question of questions ) { %>
+
+<div>
+    <div><%= question.description %></div>
+    <div><%= question.option1 %></div>
+    <div><%= question.option2 %></div>
+    <div><%= question.option3 %></div>
+    <div><%= question.option4 %></div>
+    <div><%= question.correctOption %></div>
+    <form action="/jobs/<%=jobId %>/questions/<%= question._id %>?_method=DELETE" method="post">
+        <input type="submit" value="delete">
+    </form>
+</div>
+
+<% } %>
+
+<%- include('../partials/footer.ejs') %>
