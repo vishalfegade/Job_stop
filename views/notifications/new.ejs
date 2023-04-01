@@ -1,9 +1,7 @@
 <%- include('../partials/header.ejs') %>
     <div class="row">
         <div class="col-5 m-auto">
-
             <h2>You can post new Notification's here</h2>
-
             <form action="/notifications" method="post">
                 <div class="mb-3">
                     <label for="body" class="form-label">Notification Body : </label>
@@ -13,12 +11,10 @@
                     <label for="author" class="form-label">Author : </label>
                     <input type="text" class="form-control" id="author" name="author">
                 </div>
-
                 <div>
                     <input class="btn btn-primary" type="submit" value="Add a new Notification">
                 </div>
             </form>
         </div>
     </div>
-
     <%- include('../partials/footer.ejs') %>

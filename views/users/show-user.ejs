@@ -1,0 +1,28 @@
+<%- include('../partials/header.ejs') %>
+<div class="d-flex justify-content-center h-75 align-items-center">
+    <div class="card text-bg-info mb-3" style="width: 18rem;">
+        <div class="card-header">
+            <%= user.username %>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Account Details</h5>
+            <p class="card-text">Admin: <%= user.isAdmin %>
+            </p>
+            <p class="card-text">CGPA: <%= user.cgpa %>
+            </p>
+            <p class="card-text">Name: <%= user.name %>
+            </p>
+            <p class="card-text">Selected: <%= user.selected %>
+            </p>
+            <div class="d-flex justify-content-around">
+                <a class="btn btn-warning" href="/users/<%= user._id %>/edit">edit</a>
+                <form action="/users/<%= user._id %>?_method=DELETE" method="post">
+                    <input class="btn btn-danger" type="submit" value="delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <%- include('../partials/footer.ejs') %>

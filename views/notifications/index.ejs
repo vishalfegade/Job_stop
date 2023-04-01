@@ -1,13 +1,32 @@
 <%- include('../partials/header.ejs') %>
 
-<a href="/notifications/new" class="btn btn-primary">Add a new notification</a>
-
-<% for( let notification of allNotifs ) { %>
-    <div class="">
-        <p>Body : <%= notification.body %></p>
-        <p>Author : <%= notification.author %></p>
-        <hr>
+<% if(currentUser && currentUser.isAdmin) {%>
+    <div class="mt-2 d-flex justify-content-center">
+        <a href="/notifications/new" class="btn btn-primary">Add a new notification</a>
     </div>
+<% } %>
+
+
+<% for( let i=allNotifs.length-1; i >= 0; i-- ) { %>
+  <div class="card text-center mx-5 my-2">
+    <div class="card-header">
+      Notification : #<%= i+1 %>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Author: <%= allNotifs[i].author %></h5>
+      <p class="card-text">Body: <%= allNotifs[i].body %></p>
+      <button type="button" class="btn btn-primary mt-2 mb-2" data-bs-toggle="tooltip" data-bs-placement="left"
+        title="<%= allNotifs[i].body %>">Read More</button>
+        <% if(currentUser && currentUser.isAdmin) {%>
+            <form action="/notifications/<%= allNotifs[i]._id %>?_method=DELETE" method="post">
+                <input type="submit" class="btn btn-danger" value="delete">
+            </form>
+        <% } %>
+    </div>
+    <div class="card-footer text-body-secondary">
+      <%= moment(allNotifs[i].createdAt).fromNow() %>
+    </div>
+  </div>
 <% } %>
 
 <%- include('../partials/footer.ejs') %>

@@ -13,10 +13,26 @@ let jobSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
     type: {
         type: String,
         default: "fulltime",
-    }
+    },
+    appliedUsers : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'user'
+        }
+    ],
+    questions: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'question'
+        }
+    ]
 })
 
 let Job = mongoose.model('job',jobSchema);
