@@ -11,7 +11,7 @@ let Notification = require("../models/notifications-database");
 let { isLoggedIn, isAdmin } = require('../middlewares/middlewares')
 
 router.get("/", function (req, res) {
-    res.render("home-page");
+    res.render("home-page",{page : "home-page"});
 });
 
 // REST - routes
@@ -21,11 +21,11 @@ router.get("/jobs", async (req, res) => {
         if (req.query.search && req.query.search.length > 0) {
 			let regex = new RegExp(req.query.search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi');
 			let foundJobs = await Job.find({ name: regex });
-			res.render('jobs/all-jobs', { foundJobs });
+			res.render('jobs/all-jobs', { foundJobs,page : "all-jobs" });
 		} else {
 			// extract all the jobs from db
 			let foundJobs = await Job.find({});
-			res.render('jobs/all-jobs', { foundJobs });
+			res.render('jobs/all-jobs', { foundJobs,page : "all-jobs" });
 		}
     } catch (error) {
         res.send("error while extracting all jobs", error);
@@ -34,7 +34,7 @@ router.get("/jobs", async (req, res) => {
 
 // * new
 router.get("/jobs/new", isLoggedIn, isAdmin, (req, res) => {
-    res.render("jobs/new-job");
+    res.render("jobs/new-job",{page : "all-jobs"});
 });
 
 // * create
@@ -59,7 +59,7 @@ router.post("/jobs",isLoggedIn, isAdmin, async (req, res) => {
         })
         await newNotification.save();
 
-        res.redirect("/jobs");
+        res.redirect("/jobs",{page : "all-jobs"});
     } catch (error) {
         console.log("error while adding a new job", error);
     }
@@ -73,7 +73,7 @@ router.get("/jobs/:id", async (req, res) => {
         // let checkId = mongoose.Types.ObjectId.isValid(id);
         // console.log(checkId) // return true if id is a valid
         let job = await Job.findById(id).populate('appliedUsers');
-        res.render("jobs/show-job", { job });
+        res.render("jobs/show-job", { job,page : "all-jobs" });
     } catch (error) {
         console.log("error while fetching job by id to show", error);
     }
@@ -85,7 +85,7 @@ router.get("/jobs/:id/edit", async (req, res) => {
     try {
         let id = req.params.id;
         let job = await Job.findById(id);
-        res.render("jobs/edit-jobs", { job });
+        res.render("jobs/edit-jobs", { job,page : "all-jobs" });
     } catch (error) {
         console.log("error while fetching job by id to edit", error);
     }
@@ -127,7 +127,7 @@ router.delete("/jobs/:id", async (req, res) => {
         let id = req.params.id;
         await Job.findByIdAndDelete(id);
         // findOneAndDestroy
-        res.redirect("/jobs");
+        res.redirect("/jobs",{page : "all-jobs"});
     } catch (error) {
         console.log("error while deleting a job", error);
     }
@@ -153,7 +153,7 @@ router.get('/jobs/:jobId/apply', isLoggedIn, async function(req, res) {
 		job.appliedUsers.push(req.user);
 		await job.save();
 		// console.log(job);
-		res.redirect(`/jobs`);
+		res.redirect("/jobs");
 	} catch (error) {
 		console.log('error while applying in job', error);
 	}

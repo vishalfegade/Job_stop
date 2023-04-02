@@ -7,7 +7,7 @@ let {isAdmin,isLoggedIn} = require('../middlewares/middlewares')
 router.get('/users/:id', async (req, res)=>{
     try {
         let user = await User.findById(req.params.id);
-        res.render('users/show-user', {user});
+        res.render('users/show-user', {user,page : "home-page"});
     } catch (error) {
         console.log('problem while fetching user', error);
     }
@@ -16,7 +16,7 @@ router.get('/users/:id', async (req, res)=>{
 router.get('/users/:id/edit', isLoggedIn,isAdmin , async (req, res)=>{
     try {
         let user = await User.findById(req.params.id);
-        res.render('users/edit-user', {user});
+        res.render('users/edit-user', {user,page : "home-page"});
     } catch (error) {
         console.log('problem while fetching user', error);
     }
@@ -25,7 +25,7 @@ router.get('/users/:id/edit', isLoggedIn,isAdmin , async (req, res)=>{
 router.patch('/users/:id',isLoggedIn,isAdmin , async (req, res)=>{
     try {
         await User.findByIdAndUpdate(req.params.id, req.body.user);
-        res.redirect(`/users/${req.params.id}`);
+        res.redirect(`/users/${req.params.id}`,{page : "home-page"});
     } catch (error) {
         console.log('problem while updating user', error);
     }
@@ -34,7 +34,7 @@ router.patch('/users/:id',isLoggedIn,isAdmin , async (req, res)=>{
 router.delete('/users/:id',isLoggedIn,isAdmin , async (req, res)=>{
     try {
         await User.findByIdAndDelete(req.params.id);
-        res.redirect(`/`);
+        res.redirect(`/`,{page : "home-page"});
     } catch (error) {
         console.log('problem while deleting user', error);
     }

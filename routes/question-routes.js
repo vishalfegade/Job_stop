@@ -13,7 +13,7 @@ router.get('/jobs/:id/questions', async (req, res)=>{
         let jobId = req.params.id;
         let job = await Job.findById(jobId).populate('questions');
         let questions = job.questions;
-        res.render('questions/index-question', {questions,jobId});
+        res.render('questions/index-question', {questions,jobId,job,page : "all-jobs"});
     } catch (error) {
         console.log('problem while fetching questions', error);
     }
@@ -24,7 +24,7 @@ router.get('/jobs/:id/questions/new', isAdmin, isLoggedIn , async (req, res)=>{
     try {
         // let jobId = await Job.findById(req.params.id);
         let jobId = req.params.id;
-        res.render('questions/new-question', {jobId});
+        res.render('questions/new-question', {jobId,page : "all-jobs"});
         // res.render('questions/new-question');
     } catch (error) {
         console.log('problem while fetching questions', error);
@@ -65,7 +65,7 @@ router.get('/jobs/:id/test', async (req, res)=>{
         let job = await Job.findById(jobId).populate('questions');
         // let questions = job.questions;
         // res.render('questions/test-question', {questions,jobId});
-        res.render('questions/test-question', {job});
+        res.render('questions/test-question', {job,page : "test"});
     } catch (error) {
         console.log('problem while fetching questions', error);
     }
@@ -89,9 +89,9 @@ router.post('/jobs/:id/test', async (req, res)=>{
             }
         }
         if(score >= required){
-            return res.send(`You are passed ${score}`)
+            return res.send(`PASSED <br> Correct Answers : ${score} <br> Total Questions : ${questions.length}`)
         }else{
-            return res.send(`You are failed ${score}`)
+            return res.send(`FAILED <br> Correct Answers : ${score} <br> Total Questions : ${questions.length}`)
         }
     } catch (error) {
         console.log('problem while fetching questions', error);
