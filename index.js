@@ -19,8 +19,6 @@ dotenv.config();
 // ENV Variables
 let URI = process.env.DB_URI;
 let SESSION_SECRET_KEY = process.env.SESSION_SECRET_KEY;
-let COOKIE_EXPIRES = process.env.COOKIE_EXPIRES;
-let COOKIE_AGE = process.env.COOKIE_AGE;
 
 // connecting DataBase
 mongoose
@@ -42,8 +40,8 @@ app.use(
             httpOnly: true,
             // secure: true //for https not for localhost
             // 1000 milliseconds
-            expires: COOKIE_EXPIRES,
-            maxAge: COOKIE_AGE,
+            expires: Date.now * 1000 * 60 * 60 * 24,
+            maxAge: 1000 * 60 * 60 * 24,
         },
     })
 );
