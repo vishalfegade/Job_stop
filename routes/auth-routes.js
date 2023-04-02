@@ -3,12 +3,12 @@ let router = express.Router();
 let User = require('../models/users-database');
 const passport = require('passport');
 
-router.get('/register', async(req,res)=>{
+router.get('/register', async (req, res) => {
     // register form
-    res.render('authentication/register',{page : "home-page"})
+    res.render('authentication/register', { page: "home-page" })
 })
 
-router.post('/register', async(req,res)=>{
+router.post('/register', async (req, res) => {
     let user = new User({
         username: req.body.username,
         name: req.body.name,
@@ -16,35 +16,37 @@ router.post('/register', async(req,res)=>{
     });
     // eval(require('locus'))
     // hashing and salting and saving
-    let registerUser = await User.register(user,req.body.password);
+    let registerUser = await User.register(user, req.body.password);
     // Cookie will auto generated
-    req.logIn(registerUser,(err) =>{
-        if(err){
+    req.logIn(registerUser, (err) => {
+        if (err) {
             console.log("error while registering user")
         }
         console.log("user registered")
-        res.redirect('/jobs',{page : "home-page"});
+        res.redirect('/jobs', { page: "home-page,'success' : 'Registration Successfully done" });
     })
 })
 
-router.get('/login',(req,res)=>{
+router.get('/login', (req, res) => {
     // res.render('authentication/login');
-    res.render('authentication/login',{page : "home-page"});
+    res.render('authentication/login', { page: "home-page" });
     // res.send("login page")
 })
 
-router.post('/login', passport.authenticate('local',{failureRedirect: '/login'}) ,(req,res)=>{
+router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
     //login user
     console.log("user logged in")
+    req.flash('success', 'Login Successful')
     res.redirect('/');
 })
 
-router.get('/logout',(req,res)=>{
-    req.logOut((err)=>{
-        if(err){
+router.get('/logout', (req, res) => {
+    req.logOut((err) => {
+        if (err) {
             console.log("error while logout")
         }
         console.log("user logged out")
+        req.flash('success', 'Logout Successful')
         res.redirect("/login");
     });
 })

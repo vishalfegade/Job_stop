@@ -11,7 +11,8 @@ let Notification = require("../models/notifications-database");
 let { isLoggedIn, isAdmin } = require('../middlewares/middlewares')
 
 router.get("/", function (req, res) {
-    res.render("home-page",{page : "home-page"});
+    // req.flash('success','Welcome to index jobs')
+    res.render("home-page", { page: "home-page", 'success': 'Developer : Code With Pankaj' });
 });
 
 // REST - routes
@@ -19,16 +20,14 @@ router.get("/", function (req, res) {
 router.get("/jobs", async (req, res) => {
     try {
         if (req.query.search && req.query.search.length > 0) {
-			let regex = new RegExp(req.query.search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi');
-			let foundJobs = await Job.find({ name: regex });
-            req.flash('success','Welcome to all jobs')
-			res.render('jobs/all-jobs', { foundJobs,page : "all-jobs" });
-		} else {
-			// extract all the jobs from db
-			let foundJobs = await Job.find({});
-            req.flash('success','Welcome to else all jobs')
-			res.render('jobs/all-jobs', { foundJobs,page : "all-jobs" });
-		}
+            let regex = new RegExp(req.query.search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi');
+            let foundJobs = await Job.find({ name: regex });
+            res.render('jobs/all-jobs', { foundJobs, page: "all-jobs" });
+        } else {
+            // extract all the jobs from db
+            let foundJobs = await Job.find({});
+            res.render('jobs/all-jobs', { foundJobs, page: "all-jobs" });
+        }
     } catch (error) {
         res.send("error while extracting all jobs", error);
     }
@@ -36,11 +35,11 @@ router.get("/jobs", async (req, res) => {
 
 // * new
 router.get("/jobs/new", isLoggedIn, isAdmin, (req, res) => {
-    res.render("jobs/new-job",{page : "all-jobs"});
+    res.render("jobs/new-job", { page: "all-jobs" });
 });
 
 // * create
-router.post("/jobs",isLoggedIn, isAdmin, async (req, res) => {
+router.post("/jobs", isLoggedIn, isAdmin, async (req, res) => {
     try {
         // make a database object
         let newJob = new Job({
@@ -60,9 +59,10 @@ router.post("/jobs",isLoggedIn, isAdmin, async (req, res) => {
             author: newJob.name
         })
         await newNotification.save();
-
-        res.redirect("/jobs",{page : "all-jobs"});
+        req.flash('success', 'Job Posted Success')
+        res.redirect("/jobs");
     } catch (error) {
+        req.flash('error', 'Job Posted Failed')
         console.log("error while adding a new job", error);
     }
 });
@@ -75,10 +75,10 @@ router.get("/jobs/:id", async (req, res) => {
         // let checkId = mongoose.Types.ObjectId.isValid(id);
         // console.log(checkId) // return true if id is a valid
         let job = await Job.findById(id).populate('appliedUsers');
-        res.render("jobs/show-job", { job,page : "all-jobs" });
+        res.render("jobs/show-job", { job, page: "all-jobs" });
     } catch (error) {
         // console.log("error while fetching job by id to show", error);
-        error()
+        req.flash('error', 'Job Not found')
         res.redirect('/jobs');
     }
 });
@@ -89,7 +89,7 @@ router.get("/jobs/:id/edit", async (req, res) => {
     try {
         let id = req.params.id;
         let job = await Job.findById(id);
-        res.render("jobs/edit-jobs", { job,page : "all-jobs" });
+        res.render("jobs/edit-jobs", { job, page: "all-jobs" });
     } catch (error) {
         console.log("error while fetching job by id to edit", error);
     }
@@ -117,10 +117,12 @@ router.patch("/jobs/:id", async (req, res) => {
             author: updatedJob.name
         })
         await newNotification.save();
-
+        req.flash('success', 'Job Edited Success')
         res.redirect(`/jobs/${id}`);
     } catch (error) {
+        req.flash('error', 'Job Not Edited')
         console.log("error while updating a job", error);
+        res.redirect(`/jobs`);
     }
 });
 
@@ -131,36 +133,42 @@ router.delete("/jobs/:id", async (req, res) => {
         let id = req.params.id;
         await Job.findByIdAndDelete(id);
         // findOneAndDestroy
-        res.redirect("/jobs",{page : "all-jobs"});
+        req.flash('success', 'Job Deleted Success')
+        res.redirect("/jobs", { page: "all-jobs" });
     } catch (error) {
+        req.flash('error', 'Job Deleted Failed')
         console.log("error while deleting a job", error);
+        res.redirect('/jobs');
     }
 });
 
 // apply in jobs
-router.get('/jobs/:jobId/apply', isLoggedIn, async function(req, res) {
-	try {
-		if (!req.user.cgpa) {
-			return res.send('you have not entered your cgpa');
-		}
-		let { jobId } = req.params;
-		let job = await Job.findById(jobId);
-		if (req.user.cgpa < job.cgpa) {
-			return res.send('your cgpa is not enough');
-		}
-		for (let user of job.appliedUsers) {
-			if (user._id.equals(req.user._id)) {
-				return res.send('you can only apply once');
-			}
-		}
+router.get('/jobs/:jobId/apply', isLoggedIn, async function (req, res) {
+    try {
+        if (!req.user.cgpa) {
+            return res.send('you have not entered your cgpa');
+        }
+        let { jobId } = req.params;
+        let job = await Job.findById(jobId);
+        if (req.user.cgpa < job.cgpa) {
+            return res.send('your cgpa is not enough');
+        }
+        for (let user of job.appliedUsers) {
+            if (user._id.equals(req.user._id)) {
+                return res.send('you can only apply once');
+            }
+        }
         // console.log(first)
-		job.appliedUsers.push(req.user);
-		await job.save();
-		// console.log(job);
-		res.redirect("/jobs");
-	} catch (error) {
-		console.log('error while applying in job', error);
-	}
+        job.appliedUsers.push(req.user);
+        await job.save();
+        // console.log(job);
+        req.flash('success', 'Applied for Job Success')
+        res.redirect("/jobs");
+    } catch (error) {
+        req.flash('error', 'Applied for Job failed')
+        console.log('error while applying in job', error);
+        res.redirect("/jobs");
+    }
 });
 
 // export the routes
