@@ -21,10 +21,12 @@ router.get("/jobs", async (req, res) => {
         if (req.query.search && req.query.search.length > 0) {
 			let regex = new RegExp(req.query.search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi');
 			let foundJobs = await Job.find({ name: regex });
+            req.flash('success','Welcome to all jobs')
 			res.render('jobs/all-jobs', { foundJobs,page : "all-jobs" });
 		} else {
 			// extract all the jobs from db
 			let foundJobs = await Job.find({});
+            req.flash('success','Welcome to else all jobs')
 			res.render('jobs/all-jobs', { foundJobs,page : "all-jobs" });
 		}
     } catch (error) {
@@ -75,7 +77,9 @@ router.get("/jobs/:id", async (req, res) => {
         let job = await Job.findById(id).populate('appliedUsers');
         res.render("jobs/show-job", { job,page : "all-jobs" });
     } catch (error) {
-        console.log("error while fetching job by id to show", error);
+        // console.log("error while fetching job by id to show", error);
+        error()
+        res.redirect('/jobs');
     }
 });
 

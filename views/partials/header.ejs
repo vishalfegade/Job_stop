@@ -100,3 +100,10 @@
         </header>
 
     </main>
+
+    <% if(success && success.length > 0) {%>
+        <div><%= success %></div>
+    <% } %>
+    <% if(error && error.length > 0) {%>
+        <div><%= error %></div>
+    <% } %>
