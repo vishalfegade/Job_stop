@@ -1,5 +1,5 @@
 {
-  "name": "19.-hirehub",
+  "name": "19.-Finder-Job-Board",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PankajBaliyan/HireHub.git"
+    "url": "git+https://github.com/PankajBaliyan/Finder-Job-Board.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/PankajBaliyan/HireHub/issues"
+    "url": "https://github.com/PankajBaliyan/Finder-Job-Board/issues"
   },
-  "homepage": "https://github.com/PankajBaliyan/HireHub#readme",
+  "homepage": "https://github.com/PankajBaliyan/Finder-Job-Board#readme",
   "dependencies": {
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
