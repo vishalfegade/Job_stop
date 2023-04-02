@@ -8,6 +8,8 @@ let passport = require('passport');
 let localStrategy = require('passport-local');
 let moment = require('moment');
 
+let flash = require('connect-flash');
+app.use(flash());
 // let dotenv = require('dotenv').config();
 let dotenv = require('dotenv');
 dotenv.config();
@@ -63,20 +65,22 @@ app.use(function(req, res, next) {
     //* res.local is use to make a variable or object available to all files & folders locally
 	res.locals.currentUser = req.user;
     res.locals.moment = moment;
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
 	next(); // next is used to go to next step
 });
 
 // Import the routes
-let jobRoutes = require('./routes/jobs-routes.js')
-app.use(jobRoutes);
 let notificationRoutes = require('./routes/notifications-routes.js');
-app.use(notificationRoutes);
-let authRoutes = require('./routes/auth-routes.js')
-app.use(authRoutes);
-let userRoutes = require('./routes/user-routes.js');
-app.use(userRoutes);
 let questionRoutes = require('./routes/question-routes.js');
+let userRoutes = require('./routes/user-routes.js');
+let authRoutes = require('./routes/auth-routes.js')
+let jobRoutes = require('./routes/jobs-routes.js')
+app.use(notificationRoutes);
 app.use(questionRoutes);
+app.use(userRoutes);
+app.use(authRoutes);
+app.use(jobRoutes);
 
 let PORT = process.env.PORT;
 
