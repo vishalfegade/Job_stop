@@ -1,37 +1,91 @@
 <%- include('../partials/header.ejs') %>
     <div class="row">
         <div class="col-5 m-auto">
-            <h2>You can post new Questions's here</h2>
-            <form action="/jobs/<%= jobId %>/questions" method="post">
-                <div class="mb-3">
-                    <label for="body" class="form-label">Question Description : </label>
-                    <input required type="text" class="form-control" id="body" name="question[description]">
-                </div>
-                <div class="mb-3">
-                    <label for="option1" class="form-label">Option1 : </label>
-                    <input required type="text" class="form-control" id="option1" name="question[option1]">
-                </div>
-                <div class="mb-3">
-                    <label for="option2" class="form-label">Option2 : </label>
-                    <input required type="text" class="form-control" id="option2" name="question[option2]">
-                </div>
-                <div class="mb-3">
-                    <label for="option3" class="form-label">Option3 : </label>
-                    <input required type="text" class="form-control" id="option3" name="question[option3]">
-                </div>
-                <div class="mb-3">
-                    <label for="option4" class="form-label">Option4 : </label>
-                    <input required type="text" class="form-control" id="option4" name="question[option4]">
-                </div>
-                <div class="mb-3">
-                    <label for="correctOption" class="form-label">Correct Option : </label>
-                    <input required type="text" class="form-control" id="correctOption" name="question[correctOption]">
-                </div>
 
-                <div>
-                    <input class="btn btn-primary" type="submit" value="Add a new Question">
-                </div>
-            </form>
         </div>
     </div>
+
+
+    <!-- Page content-->
+    <!-- Page container-->
+    <div class="container mt-5 mb-md-4 py-5">
+        <!-- Breadcrumb-->
+        <nav class="mb-3 mb-md-4 pt-md-3" aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="job-board-home-v1.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Post resume</li>
+            </ol>
+        </nav>
+        <!-- Page content-->
+        <div class="row justify-content-center pb-sm-2">
+            <div class="col-lg-11 col-xl-10">
+                <!-- Page title-->
+                <div class="text-center pb-4 mb-3">
+                    <h1 class="h2 mb-4">You can post new Questions's here</h1>
+                </div>
+                <form action="/jobs/<%= jobId %>/questions" method="post">
+
+                <!-- Step 1: Basic Info-->
+                <div class="bg-light rounded-3 p-4 p-md-5 mb-3">
+                    <h2 class="h4 mb-4"><i class="fi-info-circle text-primary fs-5 mt-n1 me-2"></i>Question info</h2>
+                    <div class="row">
+                        <div class="col-sm-6 mb-4">
+                            <label class="form-label" for="option1">Option 1 <span class='text-danger'>*</span></label>
+                            <input class="form-control form-control-lg" type="text" id="option1"
+                                placeholder="Enter First Option" name="question[option1]" required>
+                        </div>
+                        <div class="col-sm-6 mb-4">
+                            <label class="form-label" for="option2">Option 2 <span class='text-danger'>*</span></label>
+                            <input class="form-control form-control-lg" type="text" id="option2"
+                                placeholder="Enter Second Option" name="question[option2]" required>
+                        </div>
+                        <div class="col-sm-6 mb-4">
+                            <label class="form-label" for="option3">Option 3 <span class='text-danger'>*</span></label>
+                            <input class="form-control form-control-lg" type="text" id="option3"
+                                placeholder="Enter Third Option" name="question[option3]" required>
+                        </div>
+                        <div class="col-sm-6 mb-4">
+                            <label class="form-label" for="option4">Option 4 <span class='text-danger'>*</span></label>
+                            <input class="form-control form-control-lg" type="text" id="option4"
+                                placeholder="Enter Fourth Option" name="question[option4]" required>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 mb-4">
+                            <label class="form-label" for="correctOption">Correct Option <span
+                                    class='text-danger'>*</span></label>
+                            <select class="form-select form-select-lg" id="correctOption" required
+                                name="question[correctOption]">
+                                <option value="" disabled selected>Choose options</option>
+                                <option value="Option1">Option 1</option>
+                                <option value="Option2">Option 2</option>
+                                <option value="Option3">Option 3</option>
+                                <option value="Option4">Option 4</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 mb-4">
+                            <label class="form-label" for="pr-address">Question Description</label>
+                            <input class="form-control form-control-lg" type="text" id="pr-address"
+                                placeholder="Enter the address" name="question[description]" required>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Navigation-->
+                <div class="d-flex flex-column flex-sm-row bg-light rounded-3 p-4 px-md-5">
+                    <button type="submit"
+                        class="btn btn-primary btn-lg rounded-pill ms-sm-auto">
+                        Add a new Question
+                        <i class="fi-chevron-right fs-sm ms-2"></i>
+                    </button>
+                </div>
+            </form>
+
+            </div>
+        </div>
+    </div>
+    </main>
+
     <%- include('../partials/footer.ejs') %>

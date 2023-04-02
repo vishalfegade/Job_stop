@@ -5,7 +5,7 @@ const passport = require('passport');
 
 router.get('/register', async(req,res)=>{
     // register form
-    res.render('authentication/register')
+    res.render('authentication/register',{page : "home-page"})
 })
 
 router.post('/register', async(req,res)=>{
@@ -23,13 +23,13 @@ router.post('/register', async(req,res)=>{
             console.log("error while registering user")
         }
         console.log("user registered")
-        res.redirect('/jobs');
+        res.redirect('/jobs',{page : "home-page"});
     })
 })
 
 router.get('/login',(req,res)=>{
     // res.render('authentication/login');
-    res.render('authentication/login');
+    res.render('authentication/login',{page : "home-page"});
     // res.send("login page")
 })
 
@@ -45,7 +45,7 @@ router.get('/logout',(req,res)=>{
             console.log("error while logout")
         }
         console.log("user logged out")
-        res.redirect('/login');
+        res.redirect("/login");
     });
 })
 
