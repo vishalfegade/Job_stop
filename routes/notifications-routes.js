@@ -5,7 +5,7 @@ let Notification = require("../models/notifications-database");
 let { isLoggedIn, isAdmin } = require("../middlewares/middlewares");
 
 // index
-router.get("/notifications", async (req, res) => {
+router.get("/notifications",isLoggedIn, async (req, res) => {
   try {
     let allNotifs = await Notification.find({});
     res.render("notifications/index", { allNotifs, page: "all-notification" });
