@@ -1,51 +1,19 @@
 let express = require("express");
 let router = express.Router();
 
-let Notification = require("../models/notifications-database");
 let { isLoggedIn, isAdmin } = require("../middlewares/middlewares");
+let {notification_home,notification_new,notification_create,notification_delete} = require('../controllers/notification-controllers')
 
 // index
-router.get("/notifications",isLoggedIn, async (req, res) => {
-  try {
-    let allNotifs = await Notification.find({});
-    res.render("notifications/index", { allNotifs, page: "all-notification" });
-  } catch (error) {
-    console.log("Error while fetching notifications", error);
-  }
-});
+router.get("/notifications",isLoggedIn, notification_home);
 
 // new
-router.get("/notifications/new", (req, res) => {
-  res.render("notifications/new", { allNotifs, page: "all-notification" });
-});
+router.get("/notifications/new", notification_new);
 
 // create
-router.post("/notifications", async (req, res) => {
-  try {
-    let newNotif = new Notification({
-      body: req.body.body,
-      author: req.body.author,
-    });
-    await newNotif.save();
-    req.flash('success', 'Notification Posted Success')
-    res.redirect("/notifications", { allNotifs, page: "all-notification" });
-  } catch (error) {
-    req.flash('error', 'Notification Posted failed')
-    console.log("Error while creating a new notification", error);
-  }
-});
+router.post("/notifications", notification_create);
 
 // delete
-router.delete("/notifications/:id", isLoggedIn, isAdmin, async (req, res) => {
-  try {
-    let id = req.params.id;
-    await Notification.findByIdAndDelete(id);
-    req.flash('success', 'Notification Deleted Success')
-    res.redirect("/notifications", { allNotifs, page: "all-notification" });
-  } catch (error) {
-    req.flash('success', 'Notification Deleted failed')
-    console.log("Error while deleting a notification", error);
-  }
-});
+router.delete("/notifications/:id", isLoggedIn, isAdmin, notification_delete);
 
 module.exports = router;
