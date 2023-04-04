@@ -25,13 +25,13 @@ router.post("/jobs", isLoggedIn, isAdmin, create_job);
 router.get("/jobs/:id", show_job);
 
 // * edit
-router.get("/jobs/:id/edit", edit_job);
+router.get("/jobs/:id/edit", isLoggedIn, edit_job);
 
 // * update
-router.patch("/jobs/:id", update_job);
+router.patch("/jobs/:id", isLoggedIn, isAdmin, update_job);
 
 // * delete
-router.delete("/jobs/:id", delete_job);
+router.delete("/jobs/:id", isLoggedIn, isAdmin, delete_job);
 
 // apply in jobs
 router.get('/jobs/:jobId/apply', isLoggedIn, apply_job);
