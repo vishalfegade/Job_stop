@@ -4,7 +4,7 @@ let Notification = require("../models/notifications-database");
 
 const home_page = (req, res) => {
     // req.flash('success','Welcome to index jobs')
-    res.render("home-page", { page: "home-page", 'success': 'Developer : Code With Pankaj --- Must visit my GITHUB Profile :) ******* Waiting to see u there' });
+    res.render("home-page", { page: "home-page" });
 }
 
 const index_jobs = async (req, res) => {

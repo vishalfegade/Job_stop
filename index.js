@@ -19,23 +19,27 @@ let dotenv = require("dotenv");
 dotenv.config();
 // console.log(process.env)
 // ENV Variables
-let URI = process.env.DB_URI;
-let SESSION_SECRET_KEY = process.env.SESSION_SECRET_KEY;
+let databaseUsername = process.env.DB_USERNAME;
+let databasePassword = process.env.DB_PASS;
+
 
 // ! Database Configuration
 mongoose
-    .connect(URI)
-    .then(() => {
-        console.log("Database Connected");
-    })
-    .catch(() => {
-        console.log("Database Not Connected");
+       .connect(`mongodb+srv://${databaseUsername}:${databasePassword}@cluster0.mdsearc.mongodb.net/?retryWrites=true&w=majority`)
+
+       .then(function(){
+    console.log('Db connected');
+            })
+
+       .catch(function(error){
+        console.log(error);
     });
 
 // ! Session Configuration
+let sessionPass = process.env.SESSION_PASS;
 app.use(
     session({
-        secret: SESSION_SECRET_KEY,
+        secret: sessionPass,
         resave: false,
         saveUninitialized: true,
         cookie: {
@@ -90,7 +94,7 @@ app.use(authRoutes);
 app.use(jobRoutes);
 
 // ! Server Setup
-let PORT = process.env.PORT;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+let port = process.env.PORT;
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
