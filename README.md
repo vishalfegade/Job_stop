@@ -77,7 +77,7 @@ Contributions to this project are welcome! If you notice any issues or would lik
 
 ## Demo
 
-https://finder-job-board.onrender.com
+https://job-stop.onrender.com/
 
 
 ## Feedback
@@ -90,9 +90,9 @@ If you have any feedback, please reach out to us at vsfegade2000@gmail.com
 [<img src="https://www.seekpng.com/png/detail/111-1112824_picture-my-portfolio-logo-png.png" width="150">](https://codewithpankaj.vercel.app)
 
 
-<a href="https://linkedin.com/in/pankaj-kumar-90" target="blank"><img align="center" src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white" alt="Linkedin" height="40"/></a><br><br>
-<a href="https://leetcode.com/pankajkumar90/" target="blank"><img align="center" src="https://img.shields.io/badge/LeetCode-000000?style=for-the-badge&logo=LeetCode&logoColor=#d16c06" alt="LeetCode" height="40"/></a>
-<a href="https://auth.geeksforgeeks.org/user/im_pankaj/practice/" target="blank"><img align="center" src="https://img.shields.io/badge/GeeksforGeeks-gray?style=for-the-badge&logo=geeksforgeeks&logoColor=35914c" alt="geeksforgeeks" height="40"/></a><br><br>
+<a href="https://www.linkedin.com/in/vishal-f-10286924a/" target="blank"><img align="center" src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white" alt="Linkedin" height="40"/></a><br><br>
+<a href="https://leetcode.com/vsfegade/" target="blank"><img align="center" src="https://img.shields.io/badge/LeetCode-000000?style=for-the-badge&logo=LeetCode&logoColor=#d16c06" alt="LeetCode" height="40"/></a>
+<a href="https://auth.geeksforgeeks.org/user/vsfegade/practice" target="blank"><img align="center" src="https://img.shields.io/badge/GeeksforGeeks-gray?style=for-the-badge&logo=geeksforgeeks&logoColor=35914c" alt="geeksforgeeks" height="40"/></a><br><br>
 
 ## Lessons Learned
 
